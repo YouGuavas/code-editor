@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
+
+import EditorBox from './components/EditorBox'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,11 +17,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-         
-          <div>
-            
-          </div>
+        <div className={styles.editor}>
+         Hi
+          <EditorBox language="html"/>
         </div>
 
         <div className={styles.center}>
