@@ -100,9 +100,6 @@ a {
   text-decoration: none;
 }
 
-.codemirror-wrapper {
-  color: black;
-}
 
 @media (prefers-color-scheme: dark) {
   html {

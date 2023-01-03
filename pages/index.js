@@ -1,11 +1,12 @@
 import React from "react";
 
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.scss'
-import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from "@codemirror/lang-javascript";
+import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
+import Editor from './components/Editor';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -26,12 +27,13 @@ export default function Home() {
         <div className={styles.center}>
           
         </div>
-        <div className="codemirror-wrapper">
-          <CodeMirror value='console.log("hello world");' height="200px" width="400px" extensions={[javascript({ jsx: true })]}/>
-        </div>
-        <div className={styles.grid}>
-          
-        </div>
+        <section className={styles.editorContainer}>
+          <Editor title="HTML" extensions={[html({ matchClosingTags: true })]} />
+          <Editor title="CSS" extensions={[css()]} />
+          <Editor title="Javascript" extensions={[javascript({ jsx: true })]} />
+        </section>
+
+        
       </main>
     </>
   )
