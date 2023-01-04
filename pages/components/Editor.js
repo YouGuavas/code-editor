@@ -1,6 +1,7 @@
 import CodeMirror from '@uiw/react-codemirror';
 import {aura} from '@uiw/codemirror-theme-aura';
 import { javascript } from "@codemirror/lang-javascript";
+import styles from '../../styles/Editor.module.scss';
 
 
 

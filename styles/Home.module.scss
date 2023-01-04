@@ -40,7 +40,6 @@
   display: flex;
   width: 100vw;
   padding: 0 2rem;
-  .codemirror-wrapper {
-    margin: 0 1rem;
-  }
+  gap: 1rem;
+  justify-content: center;
 }
