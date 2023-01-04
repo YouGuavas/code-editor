@@ -6,12 +6,35 @@ import styles from '../styles/Home.module.scss'
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
+import {aura} from '@uiw/codemirror-theme-aura';
+import { useState } from "react";
+
 import Editor from './components/Editor';
 
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [theme, setTheme] = useState(aura);
+  const langs = {
+    html: {
+      title: "HTML",
+      extensions: [html({ matchClosingTags: true })]
+    },
+    css: {
+      title: "CSS",
+      extensions: [css()]
+    },
+    javascript: {
+      title: "Javascript",
+      extensions: [javascript({ jsx: true })]
+    }
+  }
+  
+  const renderEditor = (lang) => {
+    return <Editor theme={theme || aura} title={lang.title} extensions={lang.extensions} />
+  }
+
   return (
     <>
       <Head>
@@ -21,17 +44,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.editor}>
-        </div>
+      <section className={styles.editorContainer}>
+        {Object.keys(langs).map((item) => {
+          return renderEditor(langs[item])
+        })}
+        </section>
 
         <div className={styles.center}>
           
         </div>
-        <section className={styles.editorContainer}>
-          <Editor title="HTML" extensions={[html({ matchClosingTags: true })]} />
-          <Editor title="CSS" extensions={[css()]} />
-          <Editor title="Javascript" extensions={[javascript({ jsx: true })]} />
-        </section>
 
         
       </main>
