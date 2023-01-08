@@ -1,7 +1,6 @@
 import React from "react";
 
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.scss'
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from '@codemirror/lang-html';
@@ -11,8 +10,6 @@ import { useState } from "react";
 
 import Editor from './components/Editor';
 
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [theme, setTheme] = useState(aura);

@@ -1,7 +1,4 @@
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from "@codemirror/lang-javascript";
-import styles from '../../styles/Editor.module.scss';
-
 
 
 export default function Editor(props) {
