@@ -9,10 +9,12 @@ import {aura} from '@uiw/codemirror-theme-aura';
 import { useState } from "react";
 
 import Editor from './components/Editor';
+import CodeRunner from "./components/CodeResult";
 
 
 export default function Home() {
   const [theme, setTheme] = useState(aura);
+  const [htmlValue, setHTMLValue] = useState('');
   const langs = {
     html: {
       title: "HTML",
@@ -29,7 +31,11 @@ export default function Home() {
   }
   
   const renderEditor = (lang) => {
-    return <Editor theme={theme || aura} title={lang.title} extensions={lang.extensions} />
+    let codeValue;
+    if (lang.title === 'HTML') {
+      codeValue = htmlValue;
+    }
+    return <Editor setCodeValue={setHTMLValue} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
   }
 
   return (
@@ -41,17 +47,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-      <section className={styles.editorContainer}>
-        {Object.keys(langs).map((item) => {
-          return renderEditor(langs[item])
-        })}
+        
+        <section className={styles.editorContainer}>
+          {Object.keys(langs).map((item) => {
+            return renderEditor(langs[item])
+          })}
         </section>
 
-        <div className={styles.center}>
-          
-        </div>
-
-        
+        <section>
+          <CodeRunner htmlValue={htmlValue}/>
+        </section>
+      
       </main>
     </>
   )
