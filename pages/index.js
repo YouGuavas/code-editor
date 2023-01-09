@@ -36,7 +36,6 @@ export default function Home() {
   }
   
   const renderEditor = (lang) => {
-    
     return <Editor setCodeValue={lang.fn} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
   }
 
