@@ -15,29 +15,41 @@ import CodeRunner from "./components/CodeResult";
 export default function Home() {
   const [theme, setTheme] = useState(aura);
   const [htmlValue, setHTMLValue] = useState('');
+  const [cssValue, setCSSValue] = useState('');
+  const [jsValue, setJSValue] = useState('');
   const langs = {
     html: {
       title: "HTML",
-      extensions: [html({ matchClosingTags: true })]
+      extensions: [html({ matchClosingTags: true })],
+      fn: setHTMLValue
     },
     css: {
       title: "CSS",
-      extensions: [css()]
+      extensions: [css()],
+      fn: setCSSValue
     },
     javascript: {
       title: "Javascript",
-      extensions: [javascript({ jsx: true })]
+      extensions: [javascript({ jsx: true })],
+      fn: setJSValue
     }
   }
   
   const renderEditor = (lang) => {
-    let codeValue;
-    if (lang.title === 'HTML') {
-      codeValue = htmlValue;
-    }
-    return <Editor setCodeValue={setHTMLValue} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
+    
+    return <Editor setCodeValue={lang.fn} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
   }
 
+  const run = () => {
+    if (typeof window === 'object') {
+      const doc = document.getElementById('code-runner').contentWindow.document;
+      doc.open();
+      doc.write(`<script>${jsValue}</script>`)
+      doc.write(`<style>${cssValue}</style>`)
+      doc.write(htmlValue);
+      doc.close();
+  }
+  }
   return (
     <>
       <Head>
@@ -57,7 +69,7 @@ export default function Home() {
         <section>
           <CodeRunner htmlValue={htmlValue}/>
         </section>
-      
+        <button onClick={() => run()}>run</button>
       </main>
     </>
   )

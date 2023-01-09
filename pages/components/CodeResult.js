@@ -1,8 +1,7 @@
 export default function CodeRunner(props) {
-
     return (
-        <div id="code-runner">
+        <iframe id="code-runner">
             {props.htmlValue}
-        </div>
+        </iframe>
     )
 }
