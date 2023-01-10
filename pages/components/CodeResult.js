@@ -1,17 +1,18 @@
 import { useEffect } from "react"
+import styles from '../../styles/CodeResult.module.scss';
 
 
 export default function CodeRunner(props) {
     useEffect(() => {
         const doc = document.getElementById('code-runner').contentWindow.document;
         //doc is iframe content
-        doc.querySelector('html').style.backgroundColor='black';
+        doc.querySelector('html').style.backgroundColor=props.themeBgColor;
         //set base style
         //TODO: match base style to chosen theme
 
     })
     return (
-        <iframe id="code-runner">
+        <iframe className={styles.codeRunner} id="code-runner">
         </iframe>
     )
 }

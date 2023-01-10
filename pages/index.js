@@ -13,7 +13,11 @@ import CodeRunner from "./components/CodeResult";
 
 
 export default function Home() {
-  const [theme, setTheme] = useState(aura);
+  const themes = {
+    'aura': {theme: aura, bgColor: 'rgb(34,31,47)', color: 'cyan'}
+  }
+  const [themeName, setThemeName] = useState('aura');
+  const [theme, setTheme] = useState(themes[themeName]);
   const [htmlValue, setHTMLValue] = useState('');
   const [cssValue, setCSSValue] = useState('');
   const [jsValue, setJSValue] = useState('');
@@ -35,8 +39,12 @@ export default function Home() {
     }
   }
   
-  const renderEditor = (lang) => {
-    return <Editor setCodeValue={lang.fn} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
+  const matchThemeColor = () => {
+    if (theme) console.log(themes['aura']);
+  }
+  
+  const renderEditor = (lang, index) => {
+    return <Editor key={index} themeColor={theme.color} themeBgColor={theme.bgColor} setCodeValue={lang.fn} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
   }
 
   const run = () => {
@@ -47,7 +55,7 @@ export default function Home() {
       doc.write(`<style>${cssValue}</style>`)
       doc.write(htmlValue);
       doc.close();
-  }
+    }
   }
   return (
     <>
@@ -60,13 +68,13 @@ export default function Home() {
       <main className={styles.main}>
         
         <section className={styles.editorContainer}>
-          {Object.keys(langs).map((item) => {
-            return renderEditor(langs[item])
+          {Object.keys(langs).map((item, index) => {
+            return renderEditor(langs[item], index)
           })}
         </section>
 
         <section>
-          <CodeRunner htmlValue={htmlValue}/>
+          <CodeRunner themeBgColor={theme.bgColor} htmlValue={htmlValue}/>
         </section>
         <button onClick={() => run()}>run</button>
       </main>
