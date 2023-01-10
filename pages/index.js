@@ -6,6 +6,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import {aura} from '@uiw/codemirror-theme-aura';
+import {bbedit} from '@uiw/codemirror-theme-bbedit';
 import { useState } from "react";
 
 import Editor from './components/Editor';
@@ -14,10 +15,10 @@ import CodeRunner from "./components/CodeResult";
 
 export default function Home() {
   const themes = {
-    'aura': {theme: aura, bgColor: 'rgb(34,31,47)', color: 'cyan'}
+    'Aura': {theme: aura, bgColor: 'rgb(34,31,47)', color: 'cyan'},
+    'Bbedit': {theme: bbedit, bgColor: 'white', color: 'black'}
   }
-  const [themeName, setThemeName] = useState('aura');
-  const [theme, setTheme] = useState(themes[themeName]);
+  const [themeName, setThemeName] = useState('Aura');
   const [htmlValue, setHTMLValue] = useState('');
   const [cssValue, setCSSValue] = useState('');
   const [jsValue, setJSValue] = useState('');
@@ -39,12 +40,17 @@ export default function Home() {
     }
   }
   
-  const matchThemeColor = () => {
-    if (theme) console.log(themes['aura']);
+  const populateThemeDropDown = () => {
+    return Object.keys(themes).map((item) => {
+      return <option value={item}>{item}</option> 
+    })
   }
-  
+
+  const handleThemeDropDown = (event) => {
+    setThemeName(event.target.value);
+  }
   const renderEditor = (lang, index) => {
-    return <Editor key={index} themeColor={theme.color} themeBgColor={theme.bgColor} setCodeValue={lang.fn} theme={theme || aura} title={lang.title} extensions={lang.extensions} />
+    return <Editor key={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={lang.fn} theme={themes[themeName] || aura} title={lang.title} extensions={lang.extensions} />
   }
 
   const run = () => {
@@ -57,6 +63,7 @@ export default function Home() {
       doc.close();
     }
   }
+
   return (
     <>
       <Head>
@@ -66,17 +73,21 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        
+        <h2>Theme: </h2>
+        <select onChange={handleThemeDropDown}>
+          {populateThemeDropDown()}
+        </select>
         <section className={styles.editorContainer}>
+
           {Object.keys(langs).map((item, index) => {
             return renderEditor(langs[item], index)
           })}
         </section>
 
         <section>
-          <CodeRunner themeBgColor={theme.bgColor} htmlValue={htmlValue}/>
+          <CodeRunner themeBgColor={themes[themeName].bgColor} htmlValue={htmlValue}/>
         </section>
-        <button onClick={() => run()}>run</button>
+        <button style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} className="run" onClick={() => run()}>Run Code</button>
       </main>
     </>
   )
