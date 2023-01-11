@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.scss'
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
-import {aura, bbedit} from '@uiw/codemirror-themes-all';
+import {aura, bbedit, bespin, githubLight, githubDark, solarizedLight, solarizedDark, noctisLilac, tokyoNightStorm, tokyoNightDay} from '@uiw/codemirror-themes-all';
 import { useState } from "react";
 
 import Editor from './components/Editor';
@@ -15,7 +15,17 @@ import CodeRunner from "./components/CodeResult";
 export default function Home() {
   const themes = {
     'Aura': {theme: aura, bgColor: 'rgb(34,31,47)', color: 'cyan'},
-    'Bbedit': {theme: bbedit, bgColor: 'white', color: 'black'}
+    'Bbedit': {theme: bbedit, bgColor: 'white', color: 'black'},
+    'Bespin': {theme: bespin, bgColor: 'rgb(41,33,27)', color: 'gray'},
+    'Github Dark': {theme: githubDark, bgColor: 'rgb(12,17,24)', color: 'gray'},
+    'Github Light': {theme: githubLight, bgColor: 'white', color: 'black'},
+    'Noctis Lilac': {theme: noctisLilac, bgColor: 'rgb(242, 240, 249)', color: 'rgb(92,67,160)'},
+    'Solarized Dark': {theme: solarizedDark, bgColor: 'rgb(0,43,56)', color: 'rgb(138,157,157)'},
+    'Solarized Light': {theme: solarizedLight, bgColor: 'rgb(254,247,227)', color: 'rgb(112,134,140)'},
+    'Tokyo Night Day': {theme: tokyoNightDay, bgColor: 'rgb(225,226,231)', color: 'rgb(55,85,198)'	},
+    'Tokyo Night Storm': {theme: tokyoNightStorm, bgColor: 'rgb(36,38,61)', color: 'rgb(116,122,166)'},
+
+
   }
   const [themeName, setThemeName] = useState('Aura');
   const [htmlValue, setHTMLValue] = useState('');
