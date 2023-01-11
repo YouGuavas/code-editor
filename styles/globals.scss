@@ -104,6 +104,24 @@ a {
   font-size: 1rem;
   border: none;
   cursor: pointer;
+  font-family: monospace;
+}
+.theme-selection {
+  margin: 0 auto 1rem auto;
+  .theme-label, .theme-dropdown {
+    padding: 0.2rem 0; 
+    font-family: sans-serif;
+    font-weight: 200;
+    font-size: 1rem;
+  }
+  .theme-label {
+    font-weight: 400;
+    letter-spacing: 0.05rem;
+    display: inline;
+  } 
+  .theme-dropdown {
+    border: none;
+  }
 }
 
 

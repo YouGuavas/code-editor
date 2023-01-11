@@ -14,7 +14,7 @@ import CodeRunner from "./components/CodeResult";
 
 export default function Home() {
   const themes = {
-    'Aura': {theme: aura, bgColor: 'rgb(34,31,47)', color: 'cyan'},
+    'Aura': {theme: aura, bgColor: 'rgb(34,31,47)', color: 'white'},
     'Bbedit': {theme: bbedit, bgColor: 'white', color: 'black'},
     'Bespin': {theme: bespin, bgColor: 'rgb(41,33,27)', color: 'gray'},
     'Github Dark': {theme: githubDark, bgColor: 'rgb(12,17,24)', color: 'gray'},
@@ -24,8 +24,6 @@ export default function Home() {
     'Solarized Light': {theme: solarizedLight, bgColor: 'rgb(254,247,227)', color: 'rgb(112,134,140)'},
     'Tokyo Night Day': {theme: tokyoNightDay, bgColor: 'rgb(225,226,231)', color: 'rgb(55,85,198)'	},
     'Tokyo Night Storm': {theme: tokyoNightStorm, bgColor: 'rgb(36,38,61)', color: 'rgb(116,122,166)'},
-
-
   }
   const [themeName, setThemeName] = useState('Aura');
   const [htmlValue, setHTMLValue] = useState('');
@@ -82,10 +80,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h2>Theme: </h2>
-        <select onChange={handleThemeDropDown}>
-          {populateThemeDropDown()}
-        </select>
+        <form className="theme-selection" name='theme-selection'>
+          <label className='theme-label' for='theme-dropdown'>Theme: </label>
+          <select name='theme-dropdown' className='theme-dropdown' onChange={handleThemeDropDown}>
+            {populateThemeDropDown()}
+          </select>
+        </form>
         <section className={styles.editorContainer}>
 
           {Object.keys(langs).map((item, index) => {
