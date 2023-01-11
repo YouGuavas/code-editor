@@ -5,8 +5,7 @@ import styles from '../styles/Home.module.scss'
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
-import {aura} from '@uiw/codemirror-theme-aura';
-import {bbedit} from '@uiw/codemirror-theme-bbedit';
+import {aura, bbedit} from '@uiw/codemirror-themes-all';
 import { useState } from "react";
 
 import Editor from './components/Editor';
