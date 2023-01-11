@@ -1,7 +1,21 @@
+@import './variables';
+
 .codeMirrorWrapper {
     h3 {
         display: inline;
         padding: 0.5rem;
         font-family: monospace;
     }
+   @media only screen and (max-width: $md-max) {
+    div {
+        display: none;
+
+    }
+    h3 {
+        opacity: 60%;
+    }
+    .activeH3 {
+        opacity: 100%;
+    }
+   }
 }

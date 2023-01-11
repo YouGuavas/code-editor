@@ -29,6 +29,7 @@ export default function Home() {
   const [htmlValue, setHTMLValue] = useState('');
   const [cssValue, setCSSValue] = useState('');
   const [jsValue, setJSValue] = useState('');
+  const [activeEditor, setActiveEditor] = useState(0);
   const langs = {
     html: {
       title: "HTML",
@@ -57,7 +58,7 @@ export default function Home() {
     setThemeName(event.target.value);
   }
   const renderEditor = (lang, index) => {
-    return <Editor key={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={lang.fn} theme={themes[themeName] || aura} title={lang.title} extensions={lang.extensions} />
+    return <Editor key={index} activeEditor={activeEditor} setActiveEditor={() => setActiveEditor(index)} index={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={lang.fn} theme={themes[themeName] || aura} title={lang.title} extensions={lang.extensions} />
   }
 
   const run = () => {
@@ -81,7 +82,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <form className="theme-selection" name='theme-selection'>
-          <label className='theme-label' for='theme-dropdown'>Theme: </label>
+          <label className='theme-label' htmlFor='theme-dropdown'>Theme: </label>
           <select name='theme-dropdown' className='theme-dropdown' onChange={handleThemeDropDown}>
             {populateThemeDropDown()}
           </select>
