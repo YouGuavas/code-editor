@@ -41,8 +41,8 @@ export default function Home() {
   }
   
   const populateThemeDropDown = () => {
-    return Object.keys(themes).map((item) => {
-      return <option value={item}>{item}</option> 
+    return Object.keys(themes).map((item, index) => {
+      return <option key={index} value={item}>{item}</option> 
     })
   }
 
