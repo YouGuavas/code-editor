@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
+import editorStyles from '../styles/Editor.module.scss';
 import { javascript } from "@codemirror/lang-javascript";
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import {aura, bbedit, bespin, githubLight, githubDark, solarizedLight, solarizedDark, noctisLilac, tokyoNightStorm, tokyoNightDay} from '@uiw/codemirror-themes-all';
-import { useState } from "react";
 
 import Editor from './components/Editor';
 import CodeRunner from "./components/CodeResult";
@@ -60,6 +61,13 @@ export default function Home() {
   const renderEditor = (lang, index) => {
     return <Editor key={index} activeEditor={activeEditor} setActiveEditor={() => setActiveEditor(index)} index={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={lang.fn} theme={themes[themeName] || aura} title={lang.title} extensions={lang.extensions} />
   }
+  const renderMobileH3 = (lang, index) => {
+    if (index === activeEditor) {
+      return <h3 onClick={() => setActiveEditor(index)} className={editorStyles.activeH3} style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} key={index}>{lang.title}</h3>
+    } else {
+      return <h3 onClick={() => setActiveEditor(index)} style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} key={index}>{lang.title}</h3>
+    }
+  }
 
   const run = () => {
     if (typeof window === 'object') {
@@ -71,6 +79,8 @@ export default function Home() {
       doc.close();
     }
   }
+
+ 
 
   return (
     <>
@@ -88,9 +98,13 @@ export default function Home() {
           </select>
         </form>
         <section className={styles.editorContainer}>
-
+          <div className={editorStyles.mobileH3Container}>
+            {Object.keys(langs).map((item, index) => {
+                return renderMobileH3(langs[item], index);
+            })}
+          </div>
           {Object.keys(langs).map((item, index) => {
-            return renderEditor(langs[item], index)
+            return renderEditor(langs[item], index);
           })}
         </section>
 

@@ -1,21 +1,64 @@
 @import './variables';
 
-.codeMirrorWrapper {
+.mobileH3Container {
+    display: none;
+}
+
+.codeMirrorWrapper { 
     h3 {
         display: inline;
         padding: 0.5rem;
         font-family: monospace;
+        height: 1rem;
     }
-   @media only screen and (max-width: $md-max) {
-    div {
-        display: none;
+}
 
+@media only screen and (min-width: $md-max) {
+    .codeMirrorWrapper {
+        min-width: calc(100%/3);
+        width: calc(100%/3);
+        max-width: calc(100%/3);
     }
-    h3 {
-        opacity: 60%;
+}
+
+@media only screen and (max-width: $md-max) {
+    .mobileH3Container {
+        display: inline;
+        z-index: 10;
+        cursor: pointer;
+        h3 {
+            display: inline;
+            padding: 0.5rem;
+            font-family: monospace;
+            opacity: 60%;
+        }
+        .activeH3 {
+            opacity: 100%;
+        }
     }
-    .activeH3 {
-        opacity: 100%;
+    .codeMirrorWrapper {
+        width: 85vw;
+        z-index: 0;
+        h3 {
+            display: none;
+            opacity: 60%;
+            cursor: pointer;
+            position: relative;
+            top: -0.5rem;
+            z-index: 1;
+        }
+        div {
+            display: none;
+        }
     }
-   }
+    .active {
+        div {
+            display: block;
+           
+        }
+        h3 {
+            opacity: 100%;
+            left: 0;
+        }   
+    }
 }
