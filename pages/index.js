@@ -48,25 +48,66 @@ export default function Home() {
       fn: setJSValue
     }
   }
+
+  const updateLocalStorage = (updating, update) => {
+    let data = localStorage.getItem('browser-code-editor-7746');
+    if (data) {
+      data = JSON.parse(data);
+      data[updating] = update;
+      console.log(data);
+      localStorage.setItem('browser-code-editor-7746', JSON.stringify(data));
+    } else {
+      localStorage.setItem('browser-code-editor-7746', JSON.stringify({
+        theme: 'Aura',
+        html: htmlValue,
+        css: cssValue,
+        javascript: jsValue
+      }))
+    }
+  }
   
   const populateThemeDropDown = () => {
     return Object.keys(themes).map((item, index) => {
-      return <option key={index} value={item}>{item}</option> 
+      if (item === themeName) {
+        return <option key={index} value={item} selected>{item}</option> 
+      } else {
+        return <option key={index} value={item}>{item}</option> 
+      }
     })
   }
-
   const handleThemeDropDown = (event) => {
+    updateLocalStorage('theme', event.target.value);
     setThemeName(event.target.value);
   }
-  const renderEditor = (lang, index) => {
-    return <Editor key={index} activeEditor={activeEditor} setActiveEditor={() => setActiveEditor(index)} index={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={lang.fn} theme={themes[themeName] || aura} title={lang.title} extensions={lang.extensions} />
+  const handleChange = (e, lang) => {
+    langs[lang].fn(e);
+    updateLocalStorage(lang, e);
   }
-  const renderMobileH3 = (lang, index) => {
-    if (index === activeEditor) {
-      return <h3 onClick={() => setActiveEditor(index)} className={editorStyles.activeH3} style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} key={index}>{lang.title}</h3>
-    } else {
-      return <h3 onClick={() => setActiveEditor(index)} style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} key={index}>{lang.title}</h3>
+
+
+  const renderEditor = () => {
+    const handleValue = (lang) => {
+      if (langs[lang].title === 'Javascript') { 
+        return jsValue;
+      } else if (langs[lang].title === 'CSS') { 
+        return cssValue;
+      } else {
+        return htmlValue;
+      }
     }
+    return Object.keys(langs).map((lang, index) => {
+
+      return <Editor value={handleValue(lang)} key={index} activeEditor={activeEditor} setActiveEditor={() => setActiveEditor(index)} index={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={(e) => handleChange(e, lang)} theme={themes[themeName] || aura} title={langs[lang].title} extensions={langs[lang].extensions} />
+    })
+  }
+  const renderMobileH3 = () => {
+    return Object.keys(langs).map((lang, index) => {
+      if (index === activeEditor) {
+        return <h3 onClick={() => setActiveEditor(index)} className={editorStyles.activeH3} style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} key={index}>{langs[lang].title}</h3>
+      } else {
+        return <h3 onClick={() => setActiveEditor(index)} style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} key={index}>{langs[lang].title}</h3>
+      }
+    })
   }
 
   const run = () => {
@@ -80,7 +121,16 @@ export default function Home() {
     }
   }
 
- 
+ useEffect(() => {
+  let data = localStorage.getItem('browser-code-editor-7746');
+  if (data) {
+    data = JSON.parse(data);
+    setThemeName(data.theme);
+    setHTMLValue(data.html);
+    setCSSValue(data.css);
+    setJSValue(data.javascript);
+  }
+ })
 
   return (
     <>
@@ -99,13 +149,9 @@ export default function Home() {
         </form>
         <section className={styles.editorContainer}>
           <div className={editorStyles.mobileH3Container}>
-            {Object.keys(langs).map((item, index) => {
-                return renderMobileH3(langs[item], index);
-            })}
+            {renderMobileH3()}
           </div>
-          {Object.keys(langs).map((item, index) => {
-            return renderEditor(langs[item], index);
-          })}
+          {renderEditor()}
         </section>
 
         <section>

@@ -13,5 +13,4 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## TODO
-1. Style run button
-2. Style Code iframe
+1. Allow user code to persist between visits to the code editor
