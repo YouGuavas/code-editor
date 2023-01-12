@@ -13,4 +13,4 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## TODO
-1. Allow user code to persist between visits to the code editor
+1. Add comments, clean up any randomness
