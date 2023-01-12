@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 
 
 import Head from 'next/head'
@@ -54,7 +54,6 @@ export default function Home() {
     if (data) {
       data = JSON.parse(data);
       data[updating] = update;
-      console.log(data);
       localStorage.setItem('browser-code-editor-7746', JSON.stringify(data));
     } else {
       localStorage.setItem('browser-code-editor-7746', JSON.stringify({
@@ -68,11 +67,7 @@ export default function Home() {
   
   const populateThemeDropDown = () => {
     return Object.keys(themes).map((item, index) => {
-      if (item === themeName) {
-        return <option key={index} value={item} selected>{item}</option> 
-      } else {
         return <option key={index} value={item}>{item}</option> 
-      }
     })
   }
   const handleThemeDropDown = (event) => {
@@ -80,7 +75,16 @@ export default function Home() {
     setThemeName(event.target.value);
   }
   const handleChange = (e, lang) => {
-    langs[lang].fn(e);
+    langs[lang].fn(e, () => {
+      if (typeof window === 'object') {
+        const doc = document.getElementById('code-runner').contentWindow.document;
+        doc.open();
+        doc.write(`<script>${jsValue}</script>`)
+        doc.write(`<style>${cssValue}</style>`)
+        doc.write(htmlValue);
+        doc.close();
+      }
+    });
     updateLocalStorage(lang, e);
   }
 
@@ -95,8 +99,8 @@ export default function Home() {
         return htmlValue;
       }
     }
-    return Object.keys(langs).map((lang, index) => {
 
+    return Object.keys(langs).map((lang, index) => {
       return <Editor value={handleValue(lang)} key={index} activeEditor={activeEditor} setActiveEditor={() => setActiveEditor(index)} index={index} themeColor={themes[themeName].color} themeBgColor={themes[themeName].bgColor} setCodeValue={(e) => handleChange(e, lang)} theme={themes[themeName] || aura} title={langs[lang].title} extensions={langs[lang].extensions} />
     })
   }
@@ -110,16 +114,21 @@ export default function Home() {
     })
   }
 
-  const run = () => {
+  const run = (js=false) => {
     if (typeof window === 'object') {
       const doc = document.getElementById('code-runner').contentWindow.document;
       doc.open();
-      doc.write(`<script>${jsValue}</script>`)
+      if (js) doc.write(`<script>${jsValue}</script>`)
       doc.write(`<style>${cssValue}</style>`)
       doc.write(htmlValue);
       doc.close();
     }
   }
+
+ 
+useEffect(() => {
+  run();
+}, [htmlValue, cssValue])
 
  useEffect(() => {
   let data = localStorage.getItem('browser-code-editor-7746');
@@ -130,7 +139,7 @@ export default function Home() {
     setCSSValue(data.css);
     setJSValue(data.javascript);
   }
- })
+ }, [])
 
   return (
     <>
@@ -143,7 +152,7 @@ export default function Home() {
       <main className={styles.main}>
         <form className="theme-selection" name='theme-selection'>
           <label className='theme-label' htmlFor='theme-dropdown'>Theme: </label>
-          <select name='theme-dropdown' className='theme-dropdown' onChange={handleThemeDropDown}>
+          <select value={themeName} name='theme-dropdown' className='theme-dropdown' onChange={handleThemeDropDown}>
             {populateThemeDropDown()}
           </select>
         </form>
@@ -155,9 +164,9 @@ export default function Home() {
         </section>
 
         <section>
-          <CodeRunner themeBgColor={themes[themeName].bgColor} htmlValue={htmlValue}/>
+          <CodeRunner themeBgColor={themes[themeName].bgColor}/>
         </section>
-        <button style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} className="run" onClick={() => run()}>Run Code</button>
+        <button style={{backgroundColor: themes[themeName].bgColor, color: themes[themeName].color}} className="run" onClick={() => run(true)}>Run Code</button>
       </main>
     </>
   )
